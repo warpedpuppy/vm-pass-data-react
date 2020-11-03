@@ -11,7 +11,7 @@ export function LoginView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(Username, Password);
+    // console.log(Username, Password);
     // send a req to the server for auth then call props.onLoggedIn(username)
     axios.post('https://flix-world.herokuapp.com/login', {
       Username: Username,
