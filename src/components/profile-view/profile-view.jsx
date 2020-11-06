@@ -17,7 +17,8 @@ export class ProfileView extends React.Component {
       Username: props.user.Username,
       Password: props.user.Password,
       EmailId: props.user.EmailId,
-      BirthDay: props.user.BirthDay
+      BirthDay: props.user.BirthDay,
+      FavoriteMovies: props.favoritemovies
     };
   }
 
@@ -63,21 +64,28 @@ export class ProfileView extends React.Component {
   }
 
   render() {
-    let { user, movies } = this.props;
+    let { user, movies, favoritemovies } = this.props;
 
     const { Username, Password, EmailId, BirthDay } = user;
 
+    if(favoritemovies === undefined){
+      return (
+        <Form className="profile-view"></Form>
+      )
+    }
+    
     let favMovie = [];
-    for(let i=0; i < user.FavoriteMovies.length; i++) {
+    for(let i=0; i < favoritemovies.length; i++) {
       let fm = movies.find((m) => {
-        return m._id === user.FavoriteMovies[i];
+        return m._id === favoritemovies[i];
       });
       favMovie.push(fm);
     }
 
+
     return(
       <Container>
-        <Form>
+        <Form className="profile-view">
         <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control type="text" placeholder="Username" aria-label="Username" value={Username} onChange={(e) => {this.setState(
