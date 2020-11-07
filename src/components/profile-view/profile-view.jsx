@@ -13,12 +13,13 @@ import Col from 'react-bootstrap/Col';
 export class ProfileView extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      Username: null,
-      Password: null,
-      EmailId: null,
-      BirthDay: null,
-      FavoriteMovies: []
+      Username: props.user.Username,
+      Password: props.user.Password,
+      EmailId: props.user.EmailId,
+      BirthDay: props.user.BirthDay,
+      FavoriteMovies: props.user.FavoriteMovies
     };
   }
 
@@ -68,20 +69,26 @@ export class ProfileView extends React.Component {
 
     const { Username, Password, EmailId, BirthDay } = user;
 
-    if(user.FavoriteMovies === undefined){
+    // let favoritem = `${localStorage.getItem}('favoritemovies)`;
+
+    if(this.props.user.FavoriteMovies === undefined){
       return (
         <div className="profile-view">Not loaded yet</div>
       )
     }
     
     let favMovie = [];
-    for(let i=0; i < user.FavoriteMovies.length; i++) {
+    // let favMovie = movies.filter((m) => this.state.FavoriteMovies.includes(m._id));
+    // console.log(favMovie);
+
+    for(let i=0; i < this.props.user.FavoriteMovies.length; i++) {
       let fm = movies.find((m) => {
-        return m._id === parseInt(user.FavoriteMovies[i], 10);
+        return m._id === parseInt(this.props.user.FavoriteMovies[i], 10);
       });
       favMovie.push(fm);
     }
 
+    console.log(favMovie);
 
 
     return(
@@ -152,7 +159,7 @@ export class ProfileView extends React.Component {
         <Row>
           {favMovie.map(m => (
             <Col md={3} key={m._id} classname="fav-card">
-              <MovieCard key={m._id} movie={m} />
+              <MovieCard key={m._id} movies={m} />
               <Button variant="outline-dark" type="submit" onClick={() => this.removeFav(m._id)}>
                 Delete movie
               </Button>

@@ -34,6 +34,7 @@ export class MainView extends React.Component {
         user: localStorage.getItem('user')
       });
       this.getMovies(accessToken);
+      this.getUser(accessToken);
     }
   }
 
@@ -76,6 +77,21 @@ export class MainView extends React.Component {
     });
   }
 
+  getUser(accessToken) {
+    const url = `https://flix-world.herokuapp.com/users/${localStorage.getItem('user')}`;
+    axios.get(url, {
+      headers: { Authorization: `Bearer ${accessToken}`}
+    })
+    .then((response) => {
+      console.log(response.data);
+      this.setState({
+        user: response.data,
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
 
   render() {
     // if state isn't initialized, this will throw an error on runtime
@@ -123,8 +139,8 @@ export class MainView extends React.Component {
           }} />
 
 
-          <Route exact path="/users/:Username" render={( user, movies ) =>  {return <ProfileView user={user} movies={movies} />; } }/>
-                
+          <Route exact path="/users/:Username" render={( user, movies ) =>  {return <ProfileView user={ user } movies={movies} />; } }/>
+              
               {/*
               {
               selectedMovie
