@@ -14,11 +14,11 @@ export class ProfileView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Username: props.user.Username,
-      Password: props.user.Password,
-      EmailId: props.user.EmailId,
-      BirthDay: props.user.BirthDay,
-      FavoriteMovies: props.favoritemovies
+      Username: null,
+      Password: null,
+      EmailId: null,
+      BirthDay: null,
+      FavoriteMovies: []
     };
   }
 
@@ -64,23 +64,24 @@ export class ProfileView extends React.Component {
   }
 
   render() {
-    let { user, movies, favoritemovies } = this.props;
+    let { user, movies } = this.props;
 
     const { Username, Password, EmailId, BirthDay } = user;
 
-    if(favoritemovies === undefined){
+    if(user.FavoriteMovies === undefined){
       return (
-        <Form className="profile-view"></Form>
+        <div className="profile-view">Not loaded yet</div>
       )
     }
     
     let favMovie = [];
-    for(let i=0; i < favoritemovies.length; i++) {
+    for(let i=0; i < user.FavoriteMovies.length; i++) {
       let fm = movies.find((m) => {
-        return m._id === favoritemovies[i];
+        return m._id === parseInt(user.FavoriteMovies[i], 10);
       });
       favMovie.push(fm);
     }
+
 
 
     return(
@@ -175,7 +176,7 @@ ProfileView.propTypes = {
     BirthDay: PropTypes.instanceOf(Date),
     FavoriteMovies: PropTypes.array
   }),
-  movie: PropTypes.shape({
+  movies: PropTypes.shape({
     Title: PropTypes.string.isRequired,
     Description: PropTypes.string.isRequired,
     ImageURL: PropTypes.string.isRequired,

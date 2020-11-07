@@ -13,7 +13,6 @@ import { GenreView } from '../genre-view/genre-view';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { Form } from 'react-bootstrap';
 import { ProfileView } from '../profile-view/profile-view';
 
 export class MainView extends React.Component {
@@ -53,7 +52,7 @@ export class MainView extends React.Component {
   onLoggedIn(authData) {
     console.log(authData)
     this.setState({
-      user: authData.user.Username,
+      user: authData.user,
       favoritemovies: authData.user.FavoriteMovies
     });
 
@@ -81,7 +80,9 @@ export class MainView extends React.Component {
   render() {
     // if state isn't initialized, this will throw an error on runtime
     // before data is initially loaded
-    const { movies, user, favoritemovies } = this.state;
+    let { movies, user } = this.state;
+
+    // let { movies, user, favoritemovies } = this.props;
 
     /*if there is no user, loginview is rendered. If there is a user logged
     in, the user details are passed as a prop to the loginview */
@@ -121,7 +122,8 @@ export class MainView extends React.Component {
             return <GenreView genre={movies.find(m => m.Genre.Name === match.params.name).Genre}/>
           }} />
 
-          <Route exact path="/users/:Username" render={(user, movies, favoritemovies) => <ProfileView user={user} movies={movies} favoritemovies={favoritemovies} /> } />
+
+          <Route exact path="/users/:Username" render={( user, movies ) =>  {return <ProfileView user={user} movies={movies} />; } }/>
                 
               {/*
               {
