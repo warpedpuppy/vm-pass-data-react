@@ -5,7 +5,6 @@ import './profile-view.scss';
 import axios from 'axios';
 import { Form } from 'react-bootstrap';
 import { MovieCard } from '../movie-card/movie-card';
-
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -13,7 +12,7 @@ import Col from 'react-bootstrap/Col';
 export class ProfileView extends React.Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
       Username: props.user.Username,
       Password: props.user.Password,
@@ -69,13 +68,21 @@ export class ProfileView extends React.Component {
 
     const { Username, Password, EmailId, BirthDay } = user;
 
-    // let favoritem = `${localStorage.getItem}('favoritemovies)`;
-
     if(this.props.user.FavoriteMovies === undefined){
       return (
         <div className="profile-view">Not loaded yet</div>
       )
     }
+
+    return (
+      <ul>
+        <li><h1>username: {this.props.user.Username}</h1></li>
+        <li><h1>EmailId: {this.props.user.EmailId}</h1></li>
+        <li><h1>FavoriteMovies: {this.props.user.FavoriteMovies}</h1></li>
+        <li><h1>movies: {this.props.movies.map ( item => item.Title)}</h1></li>
+      </ul>
+    )
+   
     
     let favMovie = [];
     // let favMovie = movies.filter((m) => this.state.FavoriteMovies.includes(m._id));
@@ -93,6 +100,7 @@ export class ProfileView extends React.Component {
 
     return(
       <Container>
+       
         <Form className="profile-view">
         <Form.Group controlId="formUsername">
           <Form.Label>Username</Form.Label>
@@ -175,28 +183,28 @@ export class ProfileView extends React.Component {
   }
 }
 
-ProfileView.propTypes = {
-  user: PropTypes.shape({
-    Username: PropTypes.string,
-    Password: PropTypes.string,
-    EmailId: PropTypes.string,
-    BirthDay: PropTypes.instanceOf(Date),
-    FavoriteMovies: PropTypes.array
-  }),
-  movies: PropTypes.shape({
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    ImageURL: PropTypes.string.isRequired,
-    Featured: PropTypes.boolean,
-    Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Description: PropTypes.string.isRequired
-    }),
-    Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired,
-      Bio: PropTypes.string.isRequired,
-      Birth: PropTypes.string.isRequired,
-      Death: PropTypes.string
-    })
-  })
-}
+// ProfileView.propTypes = {
+//   user: PropTypes.shape({
+//     Username: PropTypes.string,
+//     Password: PropTypes.string,
+//     EmailId: PropTypes.string,
+//     BirthDay: PropTypes.string,
+//     FavoriteMovies: PropTypes.array
+//   }),
+//   movies: PropTypes.shape({
+//     Title: PropTypes.string,
+//     Description: PropTypes.string.isRequired,
+//     ImageURL: PropTypes.string.isRequired,
+//     Featured: PropTypes.boolean,
+//     Genre: PropTypes.shape({
+//       Name: PropTypes.string.isRequired,
+//       Description: PropTypes.string.isRequired
+//     }),
+//     Director: PropTypes.shape({
+//       Name: PropTypes.string.isRequired,
+//       Bio: PropTypes.string.isRequired,
+//       Birth: PropTypes.string.isRequired,
+//       Death: PropTypes.string
+//     })
+//   })
+// }

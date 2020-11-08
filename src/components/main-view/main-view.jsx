@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
@@ -28,14 +28,14 @@ export class MainView extends React.Component {
   }
 
   componentDidMount() {
-    let accessToken = localStorage.getItem('token');
-    if(accessToken != null) {
-      this.setState({
-        user: localStorage.getItem('user')
-      });
-      this.getMovies(accessToken);
-      this.getUser(accessToken);
-    }
+    // let accessToken = localStorage.getItem('token');
+    // if(accessToken != null) {
+    //   this.setState({
+    //     user: localStorage.getItem('user')
+    //   });
+    //   this.getMovies(accessToken);
+    //   this.getUser(accessToken);
+    // }
   }
 
   onMovieClick(movie) {
@@ -78,19 +78,19 @@ export class MainView extends React.Component {
   }
 
   getUser(accessToken) {
-    const url = `https://flix-world.herokuapp.com/users/${localStorage.getItem('user')}`;
-    axios.get(url, {
-      headers: { Authorization: `Bearer ${accessToken}`}
-    })
-    .then((response) => {
-      console.log(response.data);
-      this.setState({
-        user: response.data,
-      });
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    // const url = `https://flix-world.herokuapp.com/users/${localStorage.getItem('user')}`;
+    // axios.get(url, {
+    //   headers: { Authorization: `Bearer ${accessToken}`}
+    // })
+    // .then((response) => {
+    //   console.log(response.data);
+    //   this.setState({
+    //     user: response.data,
+    //   });
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
   }
 
   render() {
@@ -112,6 +112,13 @@ export class MainView extends React.Component {
     return (
       <Router>
         <div className="main-view">
+
+        <ul>
+        <li><Link to={'/'}>home</Link></li>
+        <li><Link to={`/users/${this.state.user ?  this.state.user.Username : ''}`}>profile view</Link></li>
+        </ul>
+
+
           <Container className="cards">
             <Row>
               <Route exact path="/" render={() =>{
@@ -139,7 +146,12 @@ export class MainView extends React.Component {
           }} />
 
 
-          <Route exact path="/users/:Username" render={( user, movies ) =>  {return <ProfileView user={ user } movies={movies} />; } }/>
+          <Route exact path="/users/:Username" render={() =>  {
+            return <ProfileView 
+                      user={ this.state.user ?  this.state.user : {} } 
+                      movies={ movies } 
+                      />; 
+                      } }/>
               
               {/*
               {
